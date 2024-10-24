@@ -16,6 +16,11 @@ const userSchema  = new mongoose.Schema({
     userName:String,
     password:String,
 });
-const UserModel = mongoose.model('User',userSchema);
+const UserModel = mongoose.model('User',userSchema,'User');
 
-module.exports = {UserModel}
+const AccountSchema= new mongoose.Schema({
+    userId: String,
+    balance: Number,
+});
+const AccountModel = mongoose.model('Account',AccountSchema,'Account');
+module.exports = {UserModel, AccountModel}

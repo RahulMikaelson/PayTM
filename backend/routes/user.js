@@ -37,14 +37,9 @@ router.put('/update', async (req, res) => {
 
 router.get('/bulk', async (req, res) => {
     const param = req.query.filter;
-    const users = await UserModel.find( { $or:[  {'firstName':param}, {'LastName':param} ]})
+    let users = await UserModel.find( { $or:[  {'firstName':param}, {'LastName':param} ]},'_id firstName lastName userName');
     res.status(200).send({
-       users: users.map((user)=>({
-           firstName: user.firstName,
-           lastName: user.lastName,
-           userName: user.userName,
-           _id: user._id
-       }))
+       users: users
     });
 })
 

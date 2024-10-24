@@ -27,18 +27,25 @@ const UserZod = zod.object({
             required_error: "First Name is required",
         }
     ).min(8).max(15),
-})
+});
 
 const UserUpdateZod = zod.object({
     firstName: zod.string().optional(),
     lastName: zod.string().optional(),
     password: zod.string().optional()
-})
+});
 
 
 const SignInZod = zod.object({
     userName: zod.string().email(),
     password : zod.string()
-})
+});
 
-module.exports = {UserZod, SignInZod,UserUpdateZod};
+const AccountZod =zod.object({
+    userId: zod.string(),
+    balance: zod.number()
+});
+
+const AmountZod = zod.number();
+
+module.exports = {UserZod, SignInZod,UserUpdateZod,AccountZod,AmountZod};
