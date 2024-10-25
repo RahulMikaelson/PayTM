@@ -41,11 +41,12 @@ const SignInZod = zod.object({
     password : zod.string()
 });
 
-const AccountZod =zod.object({
-    userId: zod.string(),
-    balance: zod.number()
-});
-
 const AmountZod = zod.number();
 
-module.exports = {UserZod, SignInZod,UserUpdateZod,AccountZod,AmountZod};
+const TransferZod =zod.object({
+    to: zod.string(),
+    amount: zod.number()
+});
+
+
+module.exports = {UserZod, SignInZod,UserUpdateZod,TransferZod,AmountZod};

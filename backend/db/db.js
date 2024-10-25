@@ -1,7 +1,8 @@
+const {DB_URI} = require('../config');
 const mongoose = require('mongoose');
 
 async function connectToDB() {
-    await mongoose.connect('mongodb://127.0.0.1:27017/paytm');
+    await mongoose.connect(DB_URI);
 }
 
 
@@ -23,4 +24,5 @@ const AccountSchema= new mongoose.Schema({
     balance: Number,
 });
 const AccountModel = mongoose.model('Account',AccountSchema,'Account');
-module.exports = {UserModel, AccountModel}
+
+module.exports = {mongoose,UserModel, AccountModel}
