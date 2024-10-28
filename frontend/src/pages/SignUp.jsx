@@ -11,7 +11,7 @@ const SignUp = () => {
     return (
         < >
             <div className="h-screen flex items-center justify-center">
-                <div className="border border-black-200 rounded w-1/5 p-4 ">
+                <div className="border border-black-200 rounded-md w-1/5 p-4 ">
                     <form onSubmit={(e)=>{submitForm(e)}}>
                         <h1 className="font-bold text-center text-3xl ">Sign Up</h1>
                         <p className="font-normal text-center text-gray-600 ">Enter your information to create an account</p>
