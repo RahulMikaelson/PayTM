@@ -4,7 +4,7 @@ const Users = (props) => {
 
     const navigate = useNavigate();
     const sendMoney=()=>{
-        navigate("/send");
+        navigate('/send?to='+props.user._id+'&name='+props.user.firstName);
     }
     return (
         <>

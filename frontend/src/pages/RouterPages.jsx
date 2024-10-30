@@ -4,6 +4,7 @@ import ErrorPage from "./ErrorPage.jsx";
 import SignIn from "./SignIn.jsx";
 import SignUp from "./SignUp.jsx";
 import Send from "./Send.jsx";
+import Update from "./Update.jsx";
 
 export const RouterPages = createBrowserRouter([
     {
@@ -19,5 +20,8 @@ export const RouterPages = createBrowserRouter([
     },{
         path: "/send",
         element: <Send/>
+    },{
+        path: "/update",
+        element: <Update/>
     }
 ]);

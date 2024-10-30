@@ -22,6 +22,9 @@ router.post('/create', async (req, res) => {
 router.get('/balance', async (req, res) => {
     const userId = req.userId;
     const account = await AccountModel.findOne({userId: userId}, 'balance');
+    if(!account){
+        return res.status(200).send({account: {balance: "Open An Account"}});
+    }
     account.balance = formatBalance(account.balance);
     return res.status(200).send({account: account});
 });

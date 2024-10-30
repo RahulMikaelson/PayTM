@@ -3,6 +3,15 @@ const router = express.Router();
 const {UserModel} = require('../db/db');
 
 
+
+router.get('/me', async (req, res) => {
+    const userId = req.userId;
+    let user = await UserModel.findOne({_id:userId},'_id firstName lastName userName password')
+    res.status(200).send({
+        user: user
+    });
+})
+
 router.put('/update', async (req, res) => {
     const body = req.body;
     const allowedUpdates = ['firstName', 'lastName', 'password'];
@@ -37,7 +46,8 @@ router.put('/update', async (req, res) => {
 
 router.get('/bulk', async (req, res) => {
     const param = req.query.filter;
-    let users = await UserModel.find( { $or:[  {'firstName':param}, {'LastName':param} ]},'_id firstName lastName userName');
+    const userId = req.userId;
+   let users = await UserModel.find({$and:[{_id:{$ne:userId}},{ $or:[  {'firstName':param}, {'LastName':param} ]}]},'_id firstName lastName userName')
     res.status(200).send({
        users: users
     });

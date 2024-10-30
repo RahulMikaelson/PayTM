@@ -1,45 +1,66 @@
 import Users from "./components/Users.jsx";
+import {useEffect, useState} from "react";
+import Api from "../interceptor/RequestInterceptor.js";
+import {useNavigate} from "react-router-dom";
+import Dropdown from "./components/Dropdown.jsx";
+import Navbar from "./components/Navbar.jsx";
 
 const Dashboard = () => {
 
-    const api =[
-        {userId:"fajdsfjla1",firstName:"John", lastName:"Doe", email:"john@example.com"},
-        {userId:"fajdsfjla2",firstName:"John", lastName:"Doe", email:"john@example.com"},
-        {userId:"fajdsfjla3",firstName:"John", lastName:"Doe", email:"john@example.com"},
-        {userId:"fajdsfjla4",firstName:"John", lastName:"Doe", email:"john@example.com"},
-    ]
-    api.map((user) => {
-        return <Users key={user.id} user={user} />
-    })
+
+    const [users, setUsers] = useState([]);
+    const [balance, setBalance] = useState(0);
+    const [search, setSearch] =useState("");
+    const navigate = useNavigate();
+
+    const handleChange=(e)=>{
+        console.log(e.target.value);
+        setSearch(e.target.value);
+    }
+
+    useEffect(() => {
+        Api.get("/api/v1/user/bulk").then((res) => {
+            if (res.status === 200) {
+                setUsers(res.data.users);
+            }
+        }).catch((err) => {
+            if (err.response && err.response.status === 401) {
+                navigate("/signIn");
+            } else {
+                console.log(err);
+            }
+        })
+    }, []);
+
+    useEffect(()=>{
+        Api.get("/api/v1/account/balance").then((res) => {
+            setBalance(res.data.account.balance);
+        }).catch((err) => {
+            console.log(err);
+        })
+    },[]);
 
     return (
         <>
-            <div className="flex justify-center p-5">
-                <div className=" w-1/2 flex justify-between">
-                    <h1 className="font-bold text-4xl">Payments App</h1>
-                    <div className="flex items-center space-x-4">
-                        <span className="font-bold text-gray-800 text-2xl" id="username">Hello, John</span>
-                        <div
-                            className="w-12 h-12 rounded-full bg-green-500 flex items-center justify-center text-white font-semibold text-lg overflow-hidden">
-                            <span id="user-initial">J</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <hr className="border-gray-300 my-4"/>
+            <Navbar/>
             <div className=" flex justify-center p-5">
                 <div className=" w-1/2">
-                    <h1 className="font-bold text-2xl">Your Balance 500000</h1>
+                    <h1 className="font-bold text-2xl">Your Balance: {balance}</h1>
                     <br/>
 
                     <h1 className="font-bold text-3xl">Users</h1>
                     <br/>
                     <input
                         className="border-2 border-gray-300 rounded mt-1 mb-3  pr-2 pl-2 pt-1 pb-1 w-full font-semibold text-gray-600"
-                        placeholder="Search Users..."/>
+                        name={"search"}
+                        placeholder={"Search Users..."}
+                        value={search}
+                        onChange={handleChange}
+                    />
+
                     <div className="space-y-4">
-                        {api.map((user) => (
-                            <Users key={user.userId} user={user}/>
+                        {users.map((user) => (
+                            <Users key={user._id} user={user}/>
                         ))}
                     </div>
                 </div>

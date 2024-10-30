@@ -33,7 +33,7 @@ router.post('/signIn', async (req, res) => {
     if (!result.success) {
         return res.status(411).json(
             {
-                message: "Error while logging in"
+                message: result.error.message
             });
     }
     const dbUser = await UserModel.findOne(body);
